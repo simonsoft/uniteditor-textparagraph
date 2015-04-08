@@ -1,8 +1,10 @@
-var Backbone = require('backbone');
+var authormodel = require('authormodel');
+
+var Backbone = authormodel.Backbone;
 var $ = require('jquery');
 
-var ActionContext = require('../../authormodel/actioncontext/ActionContext');
-var FlagCommon = require('../../uniteditors/src/FlagCommon');
+var ActionContext = authormodel.ActionContext;
+var FlagCommon = require('authormodel/uniteditors/src/FlagCommon');
 
 var rangy = require('rangy');
 rangy.init();
