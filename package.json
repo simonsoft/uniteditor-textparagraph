@@ -16,6 +16,7 @@
     "mocha": "^2.2.3",
     "mocha-phantomjs": "^3.5.3",
     "phantomjs": "^1.9.16",
+    "phantomjs-polyfill": "0.0.1",
     "webpack": "^1.8.1"
   },
   "dependencies": {
