@@ -7,5 +7,11 @@ module.exports = {
     },
     output: {
         filename: "./[name].bundle.js"
+    },
+    resolve: {
+      alias: {
+        // workaround for client side authormodel tests 0.3.7
+        "fs": "memory-fs"
+      }
     }
 };
