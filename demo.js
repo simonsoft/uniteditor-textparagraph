@@ -1,5 +1,5 @@
 
-var AuthoringUnit = require('../authormodel').AuthoringUnit;
+var AuthoringUnit = require('authormodel').AuthoringUnit;
 var TextParagraphEditor = require('./').UnitEditor;
 
 var createAnotherOne = function() {

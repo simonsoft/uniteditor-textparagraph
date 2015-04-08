@@ -7,11 +7,15 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "./node_modules/.bin/webpack && ./node_modules/.bin/mocha-phantomjs test.html",
+    "start": "./node_modules/.bin/webpack && open demo.html"
   },
   "devDependencies": {
     "chai": "^2.2.0",
-    "mocha": "^2.2.3"
+    "mocha": "^2.2.3",
+    "mocha-phantomjs": "^3.5.3",
+    "phantomjs": "^1.9.16",
+    "webpack": "^1.8.1"
   },
   "dependencies": {
     "authormodel": "^0.3.7",

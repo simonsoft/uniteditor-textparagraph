@@ -4,17 +4,17 @@ var exports = require('../');
 var TextParagraphEditor = exports.UnitEditor;
 //var TextParagraphEditor = require('../src/TextParagraphEditorBackbone');
 
-var AuthoringUnit = require('../../authormodel').AuthoringUnit;
+var AuthoringUnit = require('authormodel').AuthoringUnit;
 
 describe("TextParagraphEditor", function() {
 
   describe("implements UnitEditor", function() {
-    require('../../uniteditors/test/UnitEditorSpec.js')(exports);
-    require('../../uniteditors/test/UnitEditorContentSpec.js')(exports);
+    require('authormodel/uniteditors/test/UnitEditorSpec.js')(exports);
+    require('authormodel/uniteditors/test/UnitEditorContentSpec.js')(exports);
   });
 
   describe("implements UnitEditor, actions spec", function() {
-    require('../../uniteditors/test/UnitEditorActionSpec.js')(exports);
+    require('authormodel/uniteditors/test/UnitEditorActionSpec.js')(exports);
   });
 
   describe("Create new", function() {
