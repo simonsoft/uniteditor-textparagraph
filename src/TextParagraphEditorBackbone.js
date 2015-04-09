@@ -70,6 +70,10 @@ var TextParagraphEditor = Backbone.View.extend({
 
       var actionContext = new ActionContext();
       actionContext.setUnitEditor(this);
+      actionContext.setUnit(this.model);
+      if (this.hasSelection()) {
+        actionContext.setSelection(this.getSelection());
+      }
       this.trigger('authorintent', actionContext);
     }
   },
@@ -92,7 +96,7 @@ var TextParagraphEditor = Backbone.View.extend({
   getSelection: function () {
     if (rangy.initialized && rangy.supported) {
       var selection = rangy.getSelection();
-      console.log('selection', selection);
+      console.log('Rangy text selection', selection);
       return selection;
     } else {
       console.log('Rangy not supported');

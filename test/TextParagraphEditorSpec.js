@@ -157,19 +157,21 @@ describe("TextParagraphEditor", function() {
 
   });
 
-  // We don't implement this until we get "live" changes from the server
-  xdescribe("render on model change events", function() {
-  });
+  describe('Create weirdlyish unit', function() {
 
-  xdescribe('Create weirdlyish', function() {
-    xit('should fail to create without options given', function() {
+    it('should fail to create without options given', function() {
       // Not really working, don't know why
-      expect(new TextParagraphEditor()).to.throw(/Text Paragraph constructor expects options/);
+      expect(function() {
+        new TextParagraphEditor();
+      }).to.throw(/Text Paragraph constructor expects options/);
     });
+
   });
 
   xdescribe('content editable', function() {
 
   });
+
+
 
 });
