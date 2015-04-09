@@ -3,7 +3,7 @@ var webpack = require("webpack");
 module.exports = {
     entry: {
         "demo": "./demo",
-        "test": "./test/suite"
+        "test": "mocha!./test/suite"
     },
     output: {
         filename: "./[name].bundle.js"
