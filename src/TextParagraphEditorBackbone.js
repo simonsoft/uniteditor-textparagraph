@@ -87,6 +87,7 @@ var TextParagraphEditor = Backbone.View.extend({
     if (!selection){
       return false;
     } else if(selection.isCollapsed){
+      // If selection starts and ends in the same place, i.e. cursor
       return false;
     } else {
       return true;
@@ -96,8 +97,24 @@ var TextParagraphEditor = Backbone.View.extend({
   getSelection: function () {
     if (rangy.initialized && rangy.supported) {
       var selection = rangy.getSelection();
-      console.log('Rangy text selection', selection);
-      return selection;
+      var el = this.el;
+
+      if (typeof el !== 'undefined') {
+        if (typeof selection.anchorNode !== 'undefined') {
+          var tempNode = selection.anchorNode;
+          while (tempNode) {
+            //console.log('tempNode', tempNode);
+            if (tempNode === el) {
+              //console.log('they are the same!!', selection, el);
+              return selection;
+            } else {
+              tempNode = tempNode.parentElement;
+            }
+          }
+        }
+      }
+
+      return null;
     } else {
       console.log('Rangy not supported');
       return null;
