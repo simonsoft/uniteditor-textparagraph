@@ -10,6 +10,9 @@ describe("TextParagraphEditor", function() {
 
   describe("implements UnitEditor", function() {
     require('authormodel/uniteditors/test/UnitEditorSpec.js')(exports);
+  });
+
+  describe("implements UnitEditor, is .content compatible", function() {
     require('authormodel/uniteditors/test/UnitEditorContentSpec.js')(exports);
   });
 
@@ -127,28 +130,30 @@ describe("TextParagraphEditor", function() {
     it("Adds common class on render", function() {
       var editor = new TextParagraphEditor({model: new AuthoringUnit({type: 'text', preview: true})});
       editor.render();
-      expect(editor.$el.is('.preview')).to.be.true();
+      expect(editor.$el.is('.preview')).to.be.true;
     });
 
     it("Does so through FlagCommon mixin", function() {
       var au = new AuthoringUnit({type: 'text'});
       var editor = new TextParagraphEditor({model: au});
-      expect(editor.mixins.FlagCommon).to.exist();
+      expect(editor.mixins.FlagCommon).to.exist;
     });
 
     it("Does not render automatically (at least not yet, and maybe this should always be the responsibility of AuthoringRenderEngine)", function() {
       var au = new AuthoringUnit({type: 'text'});
       var editor = new TextParagraphEditor({model: au});
       editor.render();
-      expect(editor.$el.is('.preview')).to.be.false();
+      expect(editor.$el.is('.preview')).to.be.false;
       au.set('preview', true);
       editor.render();
-      expect(editor.$el.is('.preview')).to.be.true();
+      expect(editor.$el.is('.preview')).to.be.true;
     });
 
   });
 
-  xdescribe("TODO Supports 'removed' render", function() {
+  describe("Supports 'removed' render", function() {
+
+    it("TODO");
 
   });
 

@@ -10,6 +10,11 @@
     "test": "./node_modules/.bin/webpack && ./node_modules/.bin/mocha-phantomjs test.html",
     "start": "./node_modules/.bin/webpack && open demo.html"
   },
+  "dependencies": {
+    "authormodel": "^0.3.8",
+    "jquery": "^2.1.3",
+    "rangy": "^1.3.0-beta.2"
+  },
   "devDependencies": {
     "chai": "^2.2.0",
     "memory-fs": "^0.2.0",
@@ -19,10 +24,5 @@
     "phantomjs": "^1.9.16",
     "phantomjs-polyfill": "0.0.1",
     "webpack": "^1.8.1"
-  },
-  "dependencies": {
-    "authormodel": "^0.3.7",
-    "jquery": "^2.1.3",
-    "rangy": "^1.3.0-beta.2"
   }
 }
