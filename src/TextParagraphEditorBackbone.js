@@ -36,7 +36,6 @@ var TextParagraphEditor = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    console.assert(!!options && this.model && this.model.get && this.model.get('type'));
     // the above was added, despite the below, because exceptions don't produce a navigable stack in console
     // also mocha in browser handles exceptions really badly unless they are expected for, just bailing out so you don't see which test
     if (typeof options == 'undefined') throw new NoOptionsGivenException();
