@@ -95,29 +95,30 @@ var TextParagraphEditor = Backbone.View.extend({
   },
 
   getSelection: function () {
+    if (!this.el) {
+      throw new Error('Missing element, selection is unavaialble')
+    }
     if (rangy.initialized && rangy.supported) {
       var selection = rangy.getSelection();
       var el = this.el;
 
-      if (typeof el !== 'undefined') {
-        if (typeof selection.anchorNode !== 'undefined') {
-          var tempNode = selection.anchorNode;
-          while (tempNode) {
-            //console.log('tempNode', tempNode);
-            if (tempNode === el) {
-              //console.log('they are the same!!', selection, el);
-              return selection;
-            } else {
-              tempNode = tempNode.parentElement;
-            }
+      if (typeof selection.anchorNode !== 'undefined') {
+        var tempNode = selection.anchorNode;
+        while (tempNode) {
+          //console.log('tempNode', tempNode);
+          if (tempNode === el) {
+            //console.log('they are the same!!', selection, el);
+            return selection;
+          } else {
+            tempNode = tempNode.parentElement;
           }
         }
       }
 
-      return null;
+      return undefined;
     } else {
       console.log('Rangy not supported');
-      return null;
+      return undefined;
     }
   },
 
