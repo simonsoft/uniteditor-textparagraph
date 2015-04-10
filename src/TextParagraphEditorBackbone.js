@@ -74,7 +74,16 @@ var TextParagraphEditor = Backbone.View.extend({
       if (this.hasSelection()) {
         actionContext.setSelection(this.getSelection());
       }
-      this.trigger('authorintent', actionContext);
+
+      var authorIntentEvent = new CustomEvent('authorintent', {
+        detail: {
+          actionContext: actionContext
+        },
+        bubbles: true,
+        cancelable: true
+      });
+
+      this.el.dispatchEvent(authorIntentEvent);
     }
   },
 
