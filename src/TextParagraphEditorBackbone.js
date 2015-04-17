@@ -45,14 +45,14 @@ var TextParagraphEditor = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.text(this.model.attributes.content || '');
+    this.$el.text(this.model.get('content') || '');
     this.el.contentEditable = true;
     this.mixins.FlagCommon.render();
     return this;
   },
 
   save: function() {
-    this.model.attributes.content = this.$el.text();
+    this.model.set('content', this.$el.text());
   },
 
   focus: function() {
