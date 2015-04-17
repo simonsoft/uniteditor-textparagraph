@@ -30,12 +30,30 @@ describe("TextParagraphEditor", function() {
       expect(editor1.model).to.exist;
     });
 
+    it('Should fail to create without options given', function() {
+      expect(function() {
+        new TextParagraphEditor();
+      }).to.throw(/Text Paragraph constructor expects options/);
+    });
+
     it("Should fail creation if the model lacks a type attribute", function() {
       var invalidModel = new AuthoringUnit({type: 'p'});
       delete invalidModel.attributes.type;
       expect(function() {
         new TextParagraphEditor({model: invalidModel})
       }).to.throw("Property 'type' expected for authoring unit");
+    });
+
+    it("Avoids automatic render, as render behavior is regulated by UI", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'initial'});
+      var ue = new TextParagraphEditor({model: u});
+      // define backbone behavior, so we get alerted if such fundamentals change
+      expect(ue.$el).to.exist;
+      expect(ue.el).to.exist;
+      expect(ue.$el.length).to.equal(1);
+      // the actual assert
+      expect(ue.$el.text()).to.not.equal('initial');
+      expect(ue.$el.text()).to.equal('');
     });
 
     it("The new instance should render a $el", function() {
@@ -153,25 +171,34 @@ describe("TextParagraphEditor", function() {
 
   describe("Supports 'removed' render", function() {
 
-    it("TODO");
+    it("Is instead a concern of a UI library that wraps the $el, or do we extend the use of FlagCommon?");
 
   });
 
-  describe('Create weirdlyish unit', function() {
+  describe("Automatic save (could be an opt-out behavior)", function() {
 
-    it('should fail to create without options given', function() {
-      // Not really working, don't know why
-      expect(function() {
-        new TextParagraphEditor();
-      }).to.throw(/Text Paragraph constructor expects options/);
+    it("Is difficult for downstream code to implement this behavior so unlike render() we auto save()...");
+
+    it("... at blur", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'initial'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      ue.$el.text('initials');
+      expect(u.attributes.content).to.equal('initial');
+      ue.$el.trigger('blur');
+      expect(u.attributes.content).to.equal('initials');
+    });
+
+    it("... at the new HTML5 'input' event", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'init'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      ue.$el.text('ini');
+      expect(u.attributes.content).to.equal('init');
+      ue.$el.trigger('input');
+      expect(u.attributes.content).to.equal('ini');
     });
 
   });
-
-  xdescribe('content editable', function() {
-
-  });
-
-
 
 });
