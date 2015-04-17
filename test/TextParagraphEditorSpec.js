@@ -30,6 +30,12 @@ describe("TextParagraphEditor", function() {
       expect(editor1.model).to.exist;
     });
 
+    it('Should fail to create without options given', function() {
+      expect(function() {
+        new TextParagraphEditor();
+      }).to.throw(/Text Paragraph constructor expects options/);
+    });
+
     it("Should fail creation if the model lacks a type attribute", function() {
       var invalidModel = new AuthoringUnit({type: 'p'});
       delete invalidModel.attributes.type;
@@ -153,17 +159,22 @@ describe("TextParagraphEditor", function() {
 
   describe("Supports 'removed' render", function() {
 
-    it("TODO");
+    it("Is instead a concern of a UI library that wraps the $el, or do we edtend the use of FlagCommon?");
 
   });
 
-  describe('Create weirdlyish unit', function() {
+  describe("Automatic save, default behavior", function() {
 
-    it('should fail to create without options given', function() {
-      // Not really working, don't know why
-      expect(function() {
-        new TextParagraphEditor();
-      }).to.throw(/Text Paragraph constructor expects options/);
+    it("Is difficult for downstream code to implement this behavior so we save...", function() {
+
+    });
+
+    it("... at blur", function() {
+
+    });
+
+    it("... at the new HTML5 'input' event", function() {
+
     });
 
   });
