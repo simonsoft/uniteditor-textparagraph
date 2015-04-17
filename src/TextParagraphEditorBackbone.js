@@ -32,7 +32,9 @@ var TextParagraphEditor = Backbone.View.extend({
 
   events: {
     'keypress': 'onKeypress',
-    'authoraction': 'onAuthorAction'
+    'authoraction': 'onAuthorAction',
+    'blur': 'save',
+    'input': 'save'
   },
 
   initialize: function(options) {
