@@ -1,6 +1,7 @@
 {
   "name": "uniteditor-textparagraph",
-  "version": "0.1.1",
+  "version": "0.1.2",
+  "description": "Unit editor reference impl, minimal UI",
   "repository": "https://github.com/Simonsoft/uniteditor-textparagraph",
   "license": "Apache License 2.0",
   "description": "",
@@ -13,7 +14,7 @@
     "start": "./node_modules/.bin/webpack && open demo.html"
   },
   "dependencies": {
-    "authormodel": "^0.3.11",
+    "authormodel": "^0.3.12",
     "jquery": "^2.1.3",
     "rangy": "^1.3.0-beta.2"
   },
