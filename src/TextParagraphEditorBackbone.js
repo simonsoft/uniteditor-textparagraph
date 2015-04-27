@@ -26,7 +26,7 @@ function IllegalArgumentException(property, message) {
 
 var TextParagraphEditor = Backbone.View.extend({
 
-  tagName: 'p',
+  tagName: 'div', // should be overridden in case the p is wrapped in something else
 
   mixins: {},
 
@@ -47,8 +47,12 @@ var TextParagraphEditor = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.text(this.model.get('content') || '');
-    this.el.contentEditable = true;
+    var p = this.$el.find('> p');
+    if (!p.length) {
+      p = $('<p/>').appendTo(this.$el);
+    }
+    p.text(this.model.get('content') || '');
+    p[0].contentEditable = true;
     this.mixins.FlagCommon.render();
     return this;
   },
