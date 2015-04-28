@@ -62,8 +62,19 @@ describe("TextParagraphEditor", function() {
       expect(editor1.$el).to.exist;
     });
 
+    it("Has a $p accessor for the content element", function() {
+      expect(editor1.$p).to.exist;
+      expect(editor1.$p).to.have.length(1);
+    });
+
+    it("Has a $p accessor for the content element", function() {
+      expect(editor1.$p).to.exist;
+
+    });
+
     it("Should render model contents to the element, but this model had no content", function() {
-      expect(editor1.$el[0].innerHTML).to.equal('');
+      expect(editor1.$el.text()).to.equal('');
+      expect(editor1.$p[0].innerHTML).to.equal('');
     });
 
   });
@@ -73,7 +84,7 @@ describe("TextParagraphEditor", function() {
     var $ = require('jquery');
 
     var unit1 = new AuthoringUnit({type: 'p'});
-    var el = $('<p>my initial content</p>')[0];
+    var el = $('<div><p>my initial content</p></div>')[0];
     var editor1 = new TextParagraphEditor({model: unit1, el: el});
 
     it("should set its .el and .$el to the given element", function() {
@@ -93,6 +104,20 @@ describe("TextParagraphEditor", function() {
       expect(editor1.$el).to.exist;
       expect(editor1.$el.text()).to.equal('my initial content');
       expect(editor1.$el[0]).to.be.equal(el);
+    });
+
+  });
+
+  describe("Create from DOM element, p only", function() {
+
+    var $ = require('jquery');
+
+    var unit1 = new AuthoringUnit({type: 'p'});
+    var el = $('<p>my initial content</p>')[0];
+    var editor1 = new TextParagraphEditor({model: unit1, el: el});
+
+    it("render wraps with tagName", function() {
+      editor1.render();
     });
 
   });
@@ -132,7 +157,7 @@ describe("TextParagraphEditor", function() {
 
     it('should set content editable on the element', function() {
       editor1.render();
-      expect(editor1.$el.attr('contenteditable')).to.equal('true');
+      expect(editor1.$p.attr('contenteditable')).to.equal('true');
     });
 
     it('should return itself for chainability', function() {
