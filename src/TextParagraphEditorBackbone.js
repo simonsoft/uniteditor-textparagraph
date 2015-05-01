@@ -33,6 +33,8 @@ var TextParagraphEditor = Backbone.View.extend({
   events: {
     'keypress': 'onKeypress',
     'authoraction': 'onAuthorAction',
+    'focus': 'onFocus',
+    'keyup': 'onKeyup',
     'blur': 'save',
     'input': 'save'
   },
@@ -67,6 +69,22 @@ var TextParagraphEditor = Backbone.View.extend({
       throw new Error('Focus can not be used prior to render');
     }
     this.$p.focus();
+  },
+
+  onFocus: function(event) {
+    // TODO add spec then remove debug
+    console.debug('onFocus', event, arguments[1]);
+    this.selectAll();
+  },
+
+  onKeyup: function(event) {
+    // TODO do we need this emulation, or can 'focus' happen? Works pretty well for now because with mouse it is easy to select manually.
+    if (event.keyCode == 9) {
+      console.debug('keyup tab emulates focus by keyboard', event.keyCode, event);
+      //this.selectAll();
+      // messing with rangy, not sure what would make a difference
+      window.setTimeout(this.selectAll.bind(this), 100);
+    }
   },
 
   isEmpty: function() {
@@ -134,6 +152,23 @@ var TextParagraphEditor = Backbone.View.extend({
       return undefined;
     }
   },
+
+  selectAll: function() {
+    if (!this.$p || !this.$p[0].firstChild) {
+      throw new Error('Invalid state to make selection');
+    }
+    // TODO spec, init rangy?
+    if (rangy.initialized && rangy.supported) {
+      rangy.init();
+      var range = rangy.createRange();
+      range.setStartAndEnd(this.$p[0].firstChild, 0, this.model.get('content').length);
+      console.debug('selectAll range', range);
+      return range;
+    } else {
+      console.log('Rangy not supported');
+      return undefined;
+    }
+  }
 
 });
 
