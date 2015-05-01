@@ -63,7 +63,10 @@ var TextParagraphEditor = Backbone.View.extend({
   },
 
   focus: function() {
-    this.$el.focus();
+    if (!this.$p) {
+      throw new Error('Focus can not be used prior to render');
+    }
+    this.$p.focus();
   },
 
   isEmpty: function() {
