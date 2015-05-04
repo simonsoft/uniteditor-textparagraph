@@ -26,7 +26,7 @@ function IllegalArgumentException(property, message) {
 
 var TextParagraphEditor = Backbone.View.extend({
 
-  tagName: 'p',
+  tagName: 'div', // should be overridden in case the p is wrapped in something else
 
   mixins: {},
 
@@ -47,9 +47,14 @@ var TextParagraphEditor = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.text(this.model.get('content') || '');
-    this.el.contentEditable = true;
+    var p = this.$el.find('> p');
+    if (!p.length) {
+      p = $('<p/>').appendTo(this.$el);
+    }
+    p.text(this.model.get('content') || '');
+    p[0].contentEditable = true;
     this.mixins.FlagCommon.render();
+    this.$p = p;
     return this;
   },
 
@@ -97,12 +102,15 @@ var TextParagraphEditor = Backbone.View.extend({
   },
 
   getSelection: function () {
-    if (!this.el) {
-      throw new Error('Missing element, selection is unavaialble')
+    if (!this.$p) {
+      throw new Error('Not rendered, selection is unavailable');
+    }
+    if (!this.$p[0]) {
+      throw new Error('Missing element, selection is unavaialble');
     }
     if (rangy.initialized && rangy.supported) {
       var selection = rangy.getSelection();
-      var el = this.el;
+      var el = this.$p[0];
 
       if (typeof selection.anchorNode !== 'undefined') {
         var tempNode = selection.anchorNode;
