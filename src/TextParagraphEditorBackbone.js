@@ -1,6 +1,8 @@
 var authormodel = require('authormodel');
 
 var Backbone = authormodel.Backbone;
+var _ = authormodel._;
+
 var $ = require('jquery');
 
 var ActionContext = authormodel.ActionContext;
@@ -49,14 +51,16 @@ var TextParagraphEditor = Backbone.View.extend({
   },
 
   render: function() {
-    var p = this.$el.find('> p');
-    if (!p.length) {
-      p = $('<p/>').appendTo(this.$el);
+    if (!this.$p) {
+      var p = this.$el.find('> p');
+      if (!p.length) {
+        p = $('<p/>').appendTo(this.$el);
+      }
+      this.$p = p;
     }
-    p.text(this.model.get('content') || '');
-    p[0].contentEditable = true;
+    this.$p.text(this.model.get('content') || '');
+    this.$p[0].contentEditable = true;
     this.mixins.FlagCommon.render();
-    this.$p = p;
     return this;
   },
 
@@ -73,13 +77,14 @@ var TextParagraphEditor = Backbone.View.extend({
 
   onFocus: function(event) {
     // TODO add spec then remove debug
-    console.debug('onFocus', event, arguments[1]);
-    this.selectAll();
+    console.debug('onFocus no-op', event, arguments[1]);
+    //this.selectAll();
   },
 
   onKeyup: function(event) {
     // TODO do we need this emulation, or can 'focus' happen? Works pretty well for now because with mouse it is easy to select manually.
     if (event.keyCode == 9) {
+      return; // This happens also if you alt-tab to the window and had the cursor in the text, not sure we'd want that
       console.debug('keyup tab emulates focus by keyboard', event.keyCode, event);
       //this.selectAll();
       // messing with rangy, not sure what would make a difference
