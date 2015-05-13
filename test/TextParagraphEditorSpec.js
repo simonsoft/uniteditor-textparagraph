@@ -200,7 +200,7 @@ describe("TextParagraphEditor", function() {
 
   });
 
-  describe("Automatic save (could be an opt-out behavior)", function() {
+  describe("Automatic save", function() {
 
     it("Is difficult for downstream code to implement this behavior so unlike render() we auto save()...");
 
@@ -216,12 +216,22 @@ describe("TextParagraphEditor", function() {
 
     it("... at the new HTML5 'input' event", function() {
       var u = new AuthoringUnit({type: 'p', content: 'init'});
-      var ue = new TextParagraphEditor({model: u});
+      var ue = new TextParagraphEditor({model: u, saveOnChange: true});
       ue.render();
       ue.$el.text('ini');
       expect(u.attributes.content).to.equal('init');
       ue.$el.trigger('input');
       expect(u.attributes.content).to.equal('ini');
+    });
+
+    it("Not on input unless the saveOnChange option is set", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'init'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      ue.$el.text('ini');
+      expect(u.attributes.content).to.equal('init');
+      ue.$el.trigger('input');
+      expect(u.attributes.content).to.equal('init');
     });
 
   });

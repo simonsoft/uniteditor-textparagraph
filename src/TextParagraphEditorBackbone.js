@@ -38,7 +38,7 @@ var TextParagraphEditor = Backbone.View.extend({
     'focus': 'onFocus',
     'keyup': 'onKeyup',
     'blur': 'save',
-    'input': 'save'
+    'input': 'saveAuto'
   },
 
   initialize: function(options) {
@@ -47,6 +47,7 @@ var TextParagraphEditor = Backbone.View.extend({
     if (typeof options == 'undefined') throw new NoOptionsGivenException();
     if (!this.model) throw new IllegalArgumentException('model', 'required');
     if (!this.model.get('type')) throw new IllegalArgumentException('type', 'expected for authoring unit');
+    this.saveOnChange = options.saveOnChange || false;
     new FlagCommon(this);
   },
 
@@ -66,6 +67,12 @@ var TextParagraphEditor = Backbone.View.extend({
 
   save: function() {
     this.model.set('content', this.$el.text());
+  },
+
+  saveAuto: function() {
+    if (this.saveOnChange) {
+      this.save();
+    }
   },
 
   focus: function() {
