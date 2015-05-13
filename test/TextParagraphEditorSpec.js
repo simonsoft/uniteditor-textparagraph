@@ -84,8 +84,12 @@ describe("TextParagraphEditor", function() {
     var $ = require('jquery');
 
     var unit1 = new AuthoringUnit({type: 'p'});
-    var el = $('<div><p>my initial content</p></div>')[0];
+    var el = $('<div><p></p></div>')[0];
     var editor1 = new TextParagraphEditor({model: unit1, el: el});
+
+    it("requires a call to .render for content to happen", function() {
+      editor1.render();
+    });
 
     it("should set its .el and .$el to the given element", function() {
       expect(editor1.el).to.equal(el);
@@ -94,6 +98,7 @@ describe("TextParagraphEditor", function() {
     });
 
     it("save() should bind existing content to model", function() {
+      editor1.$p.text('my initial content');
       editor1.save();
       expect(editor1.model).to.exist;
       expect(editor1.model.attributes).to.exist;
@@ -118,6 +123,25 @@ describe("TextParagraphEditor", function() {
 
     it("render wraps with tagName", function() {
       editor1.render();
+    });
+
+  });
+
+  describe("Create from DOM element, model out of sync with existing DOM content", function() {
+
+    xit("Throws error if model's .content does not match existing p", function() {
+      var unit1 = new AuthoringUnit({type: 'p', content:''});
+      var el = $('<div><p>my initial content</p></div>')[0];
+      expect(function() {
+        var editor1 = new TextParagraphEditor({model: unit1, el: el});
+        editor1.render();
+      }).to.throw('TBD is it instantiation or render that fails?');
+    });
+
+    xit("Is OK if the model lacks a .content attribute", function() {
+      var unit1 = new AuthoringUnit({type: 'p'});
+      var el = $('<div><p>my initial content</p></div>')[0];
+      var editor1 = new TextParagraphEditor({model: unit1, el: el});
     });
 
   });
