@@ -208,7 +208,7 @@ describe("TextParagraphEditor", function() {
       var u = new AuthoringUnit({type: 'p', content: 'initial'});
       var ue = new TextParagraphEditor({model: u, saveOnChange: true});
       ue.render();
-      ue.$el.text('initials');
+      ue.$p.text('initials');
       expect(u.attributes.content).to.equal('initial');
       ue.$el.trigger('blur');
       expect(u.attributes.content).to.equal('initials');
@@ -218,7 +218,7 @@ describe("TextParagraphEditor", function() {
       var u = new AuthoringUnit({type: 'p', content: 'init'});
       var ue = new TextParagraphEditor({model: u, saveOnChange: true});
       ue.render();
-      ue.$el.text('ini');
+      ue.$p.text('ini');
       expect(u.attributes.content).to.equal('init');
       ue.$el.trigger('input');
       expect(u.attributes.content).to.equal('ini');
@@ -228,7 +228,7 @@ describe("TextParagraphEditor", function() {
       var u = new AuthoringUnit({type: 'p', content: 'init'});
       var ue = new TextParagraphEditor({model: u});
       ue.render();
-      ue.$el.text('ini');
+      ue.$p.text('ini');
       expect(u.attributes.content).to.equal('init');
       ue.$el.trigger('input');
       expect(u.attributes.content).to.equal('init');
@@ -238,7 +238,7 @@ describe("TextParagraphEditor", function() {
       var u = new AuthoringUnit({type: 'p', content: 'initial'});
       var ue = new TextParagraphEditor({model: u});
       ue.render();
-      ue.$el.text('initials');
+      ue.$p.text('initials');
       expect(u.attributes.content).to.equal('initial');
       ue.$el.trigger('blur');
       expect(u.attributes.content).to.equal('initial');
