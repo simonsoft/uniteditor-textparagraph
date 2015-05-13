@@ -200,13 +200,13 @@ describe("TextParagraphEditor", function() {
 
   });
 
-  describe("Automatic save (could be an opt-out behavior)", function() {
+  describe("Automatic save", function() {
 
     it("Is difficult for downstream code to implement this behavior so unlike render() we auto save()...");
 
     it("... at blur", function() {
       var u = new AuthoringUnit({type: 'p', content: 'initial'});
-      var ue = new TextParagraphEditor({model: u});
+      var ue = new TextParagraphEditor({model: u, saveOnChange: true});
       ue.render();
       ue.$el.text('initials');
       expect(u.attributes.content).to.equal('initial');
@@ -216,12 +216,32 @@ describe("TextParagraphEditor", function() {
 
     it("... at the new HTML5 'input' event", function() {
       var u = new AuthoringUnit({type: 'p', content: 'init'});
-      var ue = new TextParagraphEditor({model: u});
+      var ue = new TextParagraphEditor({model: u, saveOnChange: true});
       ue.render();
       ue.$el.text('ini');
       expect(u.attributes.content).to.equal('init');
       ue.$el.trigger('input');
       expect(u.attributes.content).to.equal('ini');
+    });
+
+    it("Not on input unless the saveOnChange option is set", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'init'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      ue.$el.text('ini');
+      expect(u.attributes.content).to.equal('init');
+      ue.$el.trigger('input');
+      expect(u.attributes.content).to.equal('init');
+    });
+
+    it("Not on blur unless the saveOnChange option is set", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'initial'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      ue.$el.text('initials');
+      expect(u.attributes.content).to.equal('initial');
+      ue.$el.trigger('blur');
+      expect(u.attributes.content).to.equal('initial');
     });
 
   });
