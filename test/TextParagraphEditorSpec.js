@@ -270,4 +270,39 @@ describe("TextParagraphEditor", function() {
 
   });
 
+  describe("Save encoding", function() {
+
+    it("Can't encode content using regular JSON rules because " +
+        "we must be able to distinguish between inline tags and < >", function() {
+
+    });
+
+    it("Encodes input as XML", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'initial'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      ue.$p[0].innerHTML = 'X < Y & Y > Z';
+      ue.save();
+      expect(u.get('content')).to.equal('X &lt; Y &amp; Y &gt; Z');
+    });
+
+    it("Displays persisted XML", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'a &amp; b'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      expect(ue.$p.text()).to.equal('a & b');
+    });
+
+    it("Displays inline tags", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'a <label>b</label>c'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      expect(ue.$p[0].innerHTML).to.equal('a <label>b</label>c');
+    });
+
+    xit("Avoids encoding of inline tags if inserted using API");
+    xit("Inline might not ever be desired for uniteditor-textparagraph");
+
+  });
+
 });
