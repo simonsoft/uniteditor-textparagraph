@@ -37,8 +37,8 @@ var TextParagraphEditor = Backbone.View.extend({
     'authoraction': 'onAuthorAction',
     'focus': 'onFocus',
     'keyup': 'onKeyup',
-    'blur': 'saveAuto',
-    'input': 'saveAuto'
+    'blur >p': 'saveAuto',
+    'input >p': 'saveAuto'
   },
 
   initialize: function(options) {

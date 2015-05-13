@@ -210,7 +210,7 @@ describe("TextParagraphEditor", function() {
       ue.render();
       ue.$el.text('initials');
       expect(u.attributes.content).to.equal('initial');
-      ue.$el.trigger('blur');
+      ue.$p.trigger('blur');
       expect(u.attributes.content).to.equal('initials');
     });
 
@@ -220,7 +220,7 @@ describe("TextParagraphEditor", function() {
       ue.render();
       ue.$el.text('ini');
       expect(u.attributes.content).to.equal('init');
-      ue.$el.trigger('input');
+      ue.$p.trigger('input');
       expect(u.attributes.content).to.equal('ini');
     });
 
@@ -230,7 +230,7 @@ describe("TextParagraphEditor", function() {
       ue.render();
       ue.$el.text('ini');
       expect(u.attributes.content).to.equal('init');
-      ue.$el.trigger('input');
+      ue.$p.trigger('input');
       expect(u.attributes.content).to.equal('init');
     });
 
@@ -240,7 +240,7 @@ describe("TextParagraphEditor", function() {
       ue.render();
       ue.$el.text('initials');
       expect(u.attributes.content).to.equal('initial');
-      ue.$el.trigger('blur');
+      ue.$p.trigger('blur');
       expect(u.attributes.content).to.equal('initial');
     });
 
