@@ -59,14 +59,18 @@ var TextParagraphEditor = Backbone.View.extend({
       }
       this.$p = p;
     }
-    this.$p.text(this.model.get('content') || '');
+    this.$p.html(this.model.get('content') || '');
     this.$p[0].contentEditable = true;
     this.mixins.FlagCommon.render();
     return this;
   },
 
   save: function() {
-    this.model.set('content', this.$el.text());
+    if (!this.$p) {
+      throw new Error('Save can not be used prior to first render');
+    }
+    var encoded = this.$p.html();
+    this.model.set('content', encoded);
   },
 
   saveAuto: function() {

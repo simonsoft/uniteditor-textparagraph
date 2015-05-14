@@ -84,8 +84,12 @@ describe("TextParagraphEditor", function() {
     var $ = require('jquery');
 
     var unit1 = new AuthoringUnit({type: 'p'});
-    var el = $('<div><p>my initial content</p></div>')[0];
+    var el = $('<div><p></p></div>')[0];
     var editor1 = new TextParagraphEditor({model: unit1, el: el});
+
+    it("requires a call to .render for content to happen", function() {
+      editor1.render();
+    });
 
     it("should set its .el and .$el to the given element", function() {
       expect(editor1.el).to.equal(el);
@@ -94,6 +98,7 @@ describe("TextParagraphEditor", function() {
     });
 
     it("save() should bind existing content to model", function() {
+      editor1.$p.text('my initial content');
       editor1.save();
       expect(editor1.model).to.exist;
       expect(editor1.model.attributes).to.exist;
@@ -118,6 +123,25 @@ describe("TextParagraphEditor", function() {
 
     it("render wraps with tagName", function() {
       editor1.render();
+    });
+
+  });
+
+  describe("Create from DOM element, model out of sync with existing DOM content", function() {
+
+    xit("Throws error if model's .content does not match existing p", function() {
+      var unit1 = new AuthoringUnit({type: 'p', content:''});
+      var el = $('<div><p>my initial content</p></div>')[0];
+      expect(function() {
+        var editor1 = new TextParagraphEditor({model: unit1, el: el});
+        editor1.render();
+      }).to.throw('TBD is it instantiation or render that fails?');
+    });
+
+    xit("Is OK if the model lacks a .content attribute", function() {
+      var unit1 = new AuthoringUnit({type: 'p'});
+      var el = $('<div><p>my initial content</p></div>')[0];
+      var editor1 = new TextParagraphEditor({model: unit1, el: el});
     });
 
   });
@@ -208,7 +232,7 @@ describe("TextParagraphEditor", function() {
       var u = new AuthoringUnit({type: 'p', content: 'initial'});
       var ue = new TextParagraphEditor({model: u, saveOnChange: true});
       ue.render();
-      ue.$el.text('initials');
+      ue.$p.text('initials');
       expect(u.attributes.content).to.equal('initial');
       ue.$el.trigger('blur');
       expect(u.attributes.content).to.equal('initials');
@@ -218,7 +242,7 @@ describe("TextParagraphEditor", function() {
       var u = new AuthoringUnit({type: 'p', content: 'init'});
       var ue = new TextParagraphEditor({model: u, saveOnChange: true});
       ue.render();
-      ue.$el.text('ini');
+      ue.$p.text('ini');
       expect(u.attributes.content).to.equal('init');
       ue.$el.trigger('input');
       expect(u.attributes.content).to.equal('ini');
@@ -228,7 +252,7 @@ describe("TextParagraphEditor", function() {
       var u = new AuthoringUnit({type: 'p', content: 'init'});
       var ue = new TextParagraphEditor({model: u});
       ue.render();
-      ue.$el.text('ini');
+      ue.$p.text('ini');
       expect(u.attributes.content).to.equal('init');
       ue.$el.trigger('input');
       expect(u.attributes.content).to.equal('init');
@@ -238,11 +262,46 @@ describe("TextParagraphEditor", function() {
       var u = new AuthoringUnit({type: 'p', content: 'initial'});
       var ue = new TextParagraphEditor({model: u});
       ue.render();
-      ue.$el.text('initials');
+      ue.$p.text('initials');
       expect(u.attributes.content).to.equal('initial');
       ue.$el.trigger('blur');
       expect(u.attributes.content).to.equal('initial');
     });
+
+  });
+
+  describe("Save encoding", function() {
+
+    it("Can't encode content using regular JSON rules because " +
+        "we must be able to distinguish between inline tags and < >", function() {
+
+    });
+
+    it("Encodes input as XML", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'initial'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      ue.$p[0].innerHTML = 'X < Y & Y > Z';
+      ue.save();
+      expect(u.get('content')).to.equal('X &lt; Y &amp; Y &gt; Z');
+    });
+
+    it("Displays persisted XML", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'a &amp; b'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      expect(ue.$p.text()).to.equal('a & b');
+    });
+
+    it("Displays inline tags", function() {
+      var u = new AuthoringUnit({type: 'p', content: 'a <label>b</label>c'});
+      var ue = new TextParagraphEditor({model: u});
+      ue.render();
+      expect(ue.$p[0].innerHTML).to.equal('a <label>b</label>c');
+    });
+
+    xit("Avoids encoding of inline tags if inserted using API");
+    xit("Inline might not ever be desired for uniteditor-textparagraph");
 
   });
 
