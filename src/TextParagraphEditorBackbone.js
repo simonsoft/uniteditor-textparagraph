@@ -32,6 +32,8 @@ var TextParagraphEditor = Backbone.View.extend({
 
   mixins: {},
 
+  saveOnChange: true,
+
   events: {
     'keypress': 'onKeypress',
     'authoraction': 'onAuthorAction',
@@ -47,7 +49,9 @@ var TextParagraphEditor = Backbone.View.extend({
     if (typeof options == 'undefined') throw new NoOptionsGivenException();
     if (!this.model) throw new IllegalArgumentException('model', 'required');
     if (!this.model.get('type')) throw new IllegalArgumentException('type', 'expected for authoring unit');
-    this.saveOnChange = options.saveOnChange || false;
+    if (typeof options.saveOnChange !== 'undefined') {
+      this.saveOnChange = options.saveOnChange;
+    }
     new FlagCommon(this);
   },
 
